@@ -8,13 +8,11 @@
 #loescht alles bisherige aus der Global Environment
 rm(list = ls(all = TRUE))
 
-user_profile <- Sys.getenv("USERPROFILE")
-workFolder <- file.path(user_profile, "Dokumente", "Studium", "Biologie", "6. Semester", "Ökologie der Lebensräume", "Exkursion", "Kernbach")
+user_profile <- gsub("\\\\", "/", Sys.getenv("USERPROFILE"))
+workFolder <- normalizePath(file.path(user_profile, "onedrive", "Dokumente", "Studium", "Biologie", "6. Semester", "Ökologie der Lebensräume", "Exkursion", "Kernbach"), winslash="\\", mustWork=TRUE)
 
 #setzt Pfad zum Verzeichnis in dem die Daten liegen
-file.exists(workFolder)
-
-setwd(normalizePath(workFolder))
+setwd(workFolder)
 install.packages("vegan")
 
 #Liste an Paketen definieren, die geladen werden sollen
