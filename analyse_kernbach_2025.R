@@ -8,10 +8,13 @@
 #loescht alles bisherige aus der Global Environment
 rm(list = ls(all = TRUE))
 
-#setzt Pfad zum Verzeichnis in dem die Daten liegen
-file.exists("C:/Users/leama/OneDrive/Dokumente/Studium/Biologie/6. Semester/Ökologie der Lebensräume/Exkursion/Kernbach")
+user_profile <- Sys.getenv("USERPROFILE")
+workFolder <- file.path(user_profile, "Dokumente", "Studium", "Biologie", "6. Semester", "Ökologie der Lebensräume", "Exkursion", "Kernbach")
 
-setwd(normalizePath("C:/Users/leama/OneDrive/Dokumente/Studium/Biologie/6. Semester/Ökologie der Lebensräume/Exkursion/Kernbach"))
+#setzt Pfad zum Verzeichnis in dem die Daten liegen
+file.exists(workFolder)
+
+setwd(normalizePath(workFolder))
 install.packages("vegan")
 
 #Liste an Paketen definieren, die geladen werden sollen
@@ -23,18 +26,6 @@ packages <- c("vegan", "ggplot2")
 
 #die Funktion library fuer die gesamte Liste Packages ausfuehren
 lapply(packages, library, character.only = TRUE)
-
-############# Pakete im PC-pool laden für Studierende ##########################
-#Sys.setenv(https_proxy = "http://www-proxy1.uni-marburg.de:3128")
-#Sys.setenv(http_proxy = "http://www-proxy1.uni-marburg.de:3128")
-#local_user_lib <- paste(Sys.getenv('LOCALAPPDATA'),'\\R_LIBS_TEMP',sep="")
-#if (!dir.exists(local_user_lib)) {dir.create(local_user_lib)}
-#.libPaths(c(local_user_lib, .libPaths()[2]))
-#Sys.setenv(R_LIBS_USER = local_user_lib)
-#install.packages(c("vegan", "ggplot2"))
-#library(vegan)
-#library(ggplot2)
-
 
 ################################################################################
 # I.    Kernbach
