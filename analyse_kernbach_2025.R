@@ -4,11 +4,6 @@
 
 # loescht alles bisherige aus der Global Environment
 rm(list = ls(all = TRUE))
-
-workFolder <- normalizePath(getwd(), winslash="\\", mustWork=TRUE)
-
-# setzt Pfad zum Verzeichnis in dem die Daten liegen
-setwd(workFolder)
 install.packages("vegan")
 install.packages("ggplot2")
 
@@ -18,6 +13,11 @@ packages <- c("vegan", "ggplot2")
 # die Funktion library fuer die gesamte Liste Packages ausfuehren
 lapply(packages, library, character.only = TRUE)
 
+# setzt Pfad zum Verzeichnis in dem die Daten liegen
+workFolder <- normalizePath(getwd(), winslash="\\", mustWork=TRUE)
+setwd(workFolder)
+
+# Einlesen der Daten
 kernbach.arten <-read.csv2("Rohdaten Kernbach(Tabelle1).csv",header = TRUE) 
 
 # Tabelle anzeigen
@@ -25,13 +25,13 @@ head(kernbach.arten)
 names(kernbach.arten)
 fix(kernbach.arten)
 
-# Entfernen erste Spalte
+# Entfernen erste Spalte (Taxonomie)
 kernbach.arten <- kernbach.arten[,-(1)]
 
-# Spalte eins als row names
+# Artname als "row names"
 row.names(kernbach.arten) <- kernbach.arten$Art
 
-# Löschen Spalte eins
+# Löschen der Spalte "Artname"
 kernbach.arten <- kernbach.arten[,-(1)]
 
 kernbach.arten
@@ -40,21 +40,21 @@ kernbach.arten
 kernbach.arten.t <- as.data.frame(t(kernbach.arten)) 
 d <- c("K", "F")
 d <- rep.int(d,9)
-kernbach.arten.t$kolk <-d
+kernbach.arten.t$kolk <- d
 
 str(kernbach.arten.t)
 
 # Sortierung der Daten
 S_kernbach <- specnumber(kernbach.arten.t[,c(-39)])### Artenzahl
-H_kernbach<-diversity(kernbach.arten.t[,c(-39)])### Shannon-Diversität
-J_kernbach<-H_kernbach/log(specnumber(kernbach.arten.t[,c(-39)]))# Evenness
-Abu_kernbach<-rowSums(kernbach.arten.t[,c(-39)])### Abundanz=Anzahl der Individuen pro Probestelle
+H_kernbach <- diversity(kernbach.arten.t[,c(-39)])### Shannon-Diversität
+J_kernbach <- H_kernbach/log(specnumber(kernbach.arten.t[,c(-39)]))# Evenness
+Abu_kernbach <- rowSums(kernbach.arten.t[,c(-39)])### Abundanz=Anzahl der Individuen pro Probestelle
 
 # Anhängen der Indices an den data frame
-kernbach.arten.t$S <-S_kernbach
-kernbach.arten.t$H <-H_kernbach
-kernbach.arten.t$J <-J_kernbach
-kernbach.arten.t$Abu <-Abu_kernbach
+kernbach.arten.t$S <- S_kernbach
+kernbach.arten.t$H <- H_kernbach
+kernbach.arten.t$J <- J_kernbach
+kernbach.arten.t$Abu <- Abu_kernbach
 
 kernbach.arten.t
 
@@ -66,7 +66,7 @@ kernbach.arten.t
 
 # Erstellung von Subsets für die fließende und die aufgestauten Bereiche Bereiche
 kernbach.arten.t_F <- subset(kernbach.arten.t, kolk == "F")
-kernbach.arten.t_K  <- subset(kernbach.arten.t, kolk == "K")
+kernbach.arten.t_K <- subset(kernbach.arten.t, kolk == "K")
 
 #Alpha-Diversität
 
@@ -120,12 +120,12 @@ hist(model1$residuals,
 # Beta-Diversität
 
 # Erstellen einer Matrix der Paarweisen Unterschiede der Artenzusammensetzung
-kernbach.arten.t.beta<-kernbach.arten.t
+kernbach.arten.t.beta <- kernbach.arten.t
 
 #Entfernen nicht benötigter Spalten
-kernbach.arten.t.beta<-kernbach.arten.t.beta[,-c(44:49)]
+kernbach.arten.t.beta <- kernbach.arten.t.beta[,-c(44:49)]
 
-kernbach.arten.t.beta<-as.data.frame(kernbach.arten.t.beta)
+kernbach.arten.t.beta <- as.data.frame(kernbach.arten.t.beta)
 kernbach.arten.t.beta <- na.omit(kernbach.arten.t.beta)
 str(kernbach.arten.t.beta)
 
