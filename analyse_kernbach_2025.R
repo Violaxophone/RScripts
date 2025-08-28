@@ -5,12 +5,12 @@
 # loescht alles bisherige aus der Global Environment
 rm(list = ls(all = TRUE))
 
-user_profile <- gsub("\\\\", "/", Sys.getenv("USERPROFILE"))
-workFolder <- normalizePath(file.path(user_profile, "onedrive", "Dokumente", "Studium", "Biologie", "6. Semester", "Ökologie der Lebensräume", "Exkursion", "Kernbach"), winslash="\\", mustWork=TRUE)
+workFolder <- normalizePath(getwd(), winslash="\\", mustWork=TRUE)
 
 # setzt Pfad zum Verzeichnis in dem die Daten liegen
 setwd(workFolder)
 install.packages("vegan")
+install.packages("ggplot2")
 
 # Liste an Paketen definieren, die geladen werden sollen
 packages <- c("vegan", "ggplot2")
